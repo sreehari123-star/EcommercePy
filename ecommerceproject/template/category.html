@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+ {% if category %}
+    {{ category.description|truncatewords:155 }}
+ {% else %}
+    welcome to abc store where you can buy different items...
+ {% endif %}
+{% endblock %}
+{% block title %}
+ {% if category %}
+  {{ category.name }} - ABC Store
+ {% else %}
+  See Our new collections - ABC Store
+ {% endif %}
+{% endblock %}
+{% block content %}
+ {% if category %}
+  <div>
+    <div>
+      <p>
+          <a href="{% url 'shop:allProdCat' %}">Our Product Collections |</a>
+          <a href="{{product.category.get_url}}">{{category.name}}</a>
+      </p>
+    </div>
+  </div>
+{% endif %}
+
+<div class="mx-auto">
+    {% if category %}
+        <img class="my_image" src="{{category.image.url}}" alt="{{category.name}}">
+</div>
+<br>
+<div>
+    <h1 class="text-center">{{category.name}}</h1>
+    <p class="text-justify" style="margin-left:2em;">{{category.description}}</p>
+</div>
+{% else %}
+    <div>
+        <img class="my_image my_image_padding" src="{% static 'image/ecommerce.jpg' %}" alt="our products">
+    </div>
+<br>
+<div>
+    <h1><center>Our Products Collections</center></h1>
+    <p class="text-justify" style="margin-left:3em;">Every brand is different. Every eCommerce store is made differently. As one of the top eCommerce Marketing Company, we understand your website needs delicately crafted marketing tactics, which must be improved and fine-tuned as you perform progress.
+
+Incrementors includes a talented team of E-commerce experts who can produce digitally advanced E-commerce websites in collaboration with their clients. With our talent for designing and advertising, we create technology-oriented online solutions that help in building customized online stores and strategizing personal marketing approaches.
+
+We can revolutionize your customer services by providing the most fitting E-commerce solutions that integrate communication, security, and data management. We leave no stone unturned to ensure that your brand maintains a superior status quo in an ever-shifting market.
+
+Our e-commerce support team gives you the benefit of our expertise and gives technological insights to implement changes on the website to optimize its performance. We believe in maintaining a long-term relationship with our clients through good communication.We at Incrementors give you the most qualified content writers who carry careful research to write articles as per your requirement. The content written by us is written keeping in mind the readers of the articles.
+
+We have experienced content writers who make it a point to understand the audience of the content. Our content writers can write for any topic whether simple or difficult ranging from a needle to a rocket. We have the expertise in writing content and we can write in a reader-friendly way.
+
+We offer our services in the fields and to all the industries. We provide our content writing services in the possible sectors like academics, entertainment industry, IT industry, healthcare industry, manufacturing industry, real estate sector, etc. We offer content writing services for small businesses, individual enterprises to medium scale industries, and large multinational corporations.
+
+We have a proven record of delivering quality content to numerous clients over the years. We have collaborated with professional certified writers experts who understand your competitors along with your audience to know about your products, services, solutions, and processes to come up with persuasive content that leads to a higher sales conversion ratio.</p>
+</div>
+{% endif %}
+
+<div class="row">
+    {% for product in products.object_list %}
+  <div class="column">
+      <a href="{{product.get_url}}">
+          <img src="{{product.image.url}}" alt="{{product.name}}" style="margin-left:3em;">
+      </a>
+         <div class="card" style="width:62%;height:4em;margin-left:3em;text-align:center;">
+                <h4>{{product.name}}</h4>
+                <p>{{product.price}}</p>
+         </div>
+  </div>
+    {% endfor %}<br>
+</div>
+<div class="mx-auto">
+    {% if products.paginator.num_pages > 1 %}
+
+    <hr>
+    <div class="text-center">
+        {% for pg in products.paginator.page_range %}
+        <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %}">{{ pg }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+<br>
+</div>
+<!--<div class="container">-->
+<!--    <div class="row">-->
+<!--        {% for product in products %}-->
+<!--        <div class="col-md-3">-->
+<!--            <a href="{{product.get_url}}"><img style='height:"250"' src="{{product.image.url}}" alt="{{product.name}}"></a>-->
+<!--            <div class="card" style="width:100;margin:100;">-->
+<!--                <h4>{{product.name}}</h4>-->
+<!--                <p>{{product.price}}</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+{% endblock %}
